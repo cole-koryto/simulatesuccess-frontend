@@ -1,5 +1,7 @@
 import React, { useState, FC } from 'react'
-import AddableInputBox from './AddableInputBox'
+import AddablePercentileBox from './AddablePercentileBox'
+import AddableSourceBox from './AddableSourceBox'
+import axios from 'axios';
 
 
 // interface MyInputProps 
@@ -23,23 +25,43 @@ import AddableInputBox from './AddableInputBox'
 //   )
 // }
 
-
-const handleSubmit = (event: any) => {
-    event.preventDefault()
-    console.log("current_balance=" + event.target.current_balance.value)
-    console.log("annual_return=" + event.target.annual_return.value)
-    console.log("return_std=" + event.target.return_std.value)
-    console.log("current_age=" + event.target.current_age.value)
-    console.log("life_expectancy=" + event.target.life_expectancy.value)
-    console.log("inflation=" + event.target.inflation.value)
-    //console.log(fields)
-    console.log("distribution_type=" + event.target.distribution_type.value)
-    console.log("random_state=" + event.target.random_state.value)
-}
-
-
 const InputBox = () => {
-    const [fields, setFields] = useState([""]);
+    const [percentiles, setPercentiles] = useState([""]);
+    const [incomeSources, setIncomeSources] = useState([""]);
+    const [spendingSources, setSpendingSources] = useState([""]);
+
+    const handleSubmit = (event: any) => {
+        event.preventDefault()
+        console.log("current_balance=" + event.target.current_balance.value)
+        console.log("annual_return=" + event.target.annual_return.value)
+        console.log("return_std=" + event.target.return_std.value)
+        console.log("current_age=" + event.target.current_age.value)
+        console.log("life_expectancy=" + event.target.life_expectancy.value)
+        console.log("inflation=" + event.target.inflation.value)
+        console.log(percentiles)
+        console.log("distribution_type=" + event.target.distribution_type.value)
+        console.log("random_state=" + event.target.random_state.value)
+
+
+        // let data = {
+        //     current_balance: event.target.current_balance.value,
+        //     annual_return: event.target.annual_return.value,
+        //     return_std: event.target.return_std.value,
+        //     current_age: event.target.current_age.value,
+        //     life_expectancy: event.target.life_expectancy.value,
+        //     inflation: event.target.inflation.value,
+        //     distribution_type: event.target.distribution_type.value,
+        //     random_state: event.target.random_state.value,
+        // };
+        
+        // axios.post('Your-API-Endpoint-Here', data)
+        // .then((response) => {
+        //     console.log(response.data);
+        // })
+        // .catch((error) => {
+        //     console.error('Error:', error);
+        // });
+    }
 
     return (
         <div>
@@ -73,7 +95,7 @@ const InputBox = () => {
                     <input name="num_simulations" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                 </div>
                 <div className="mb-5">
-                    <AddableInputBox fields={fields} setFields={setFields}/>
+                    <AddablePercentileBox fields={percentiles} setFields={setPercentiles}/>
                 </div>
                 <label htmlFor="distribution_type" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Distribution Type</label>
                 <select name="distribution_type" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -83,6 +105,12 @@ const InputBox = () => {
                 <div className="mb-5">
                     <label htmlFor="random_state" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Random State</label>
                     <input name="random_state" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                </div>
+                <div className="mb-5">
+                    <AddableSourceBox fields={incomeSources} setFields={setIncomeSources}/>
+                </div>
+                <div className="mb-5">
+                    <AddableSourceBox fields={spendingSources} setFields={setSpendingSources}/>
                 </div>
 
                 <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>

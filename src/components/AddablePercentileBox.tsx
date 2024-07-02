@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 //https://codesandbox.io/s/react-dynamic-form-xez6d?file=/src/App.js:230-299
 
 //@ts-ignore
-const AddableInputBox = ({fields, setFields}) => {
+const AddablePercentileBox = ({fields, setFields}) => {
     
 
     const fieldRef = useRef();
@@ -28,24 +28,8 @@ const AddableInputBox = ({fields, setFields}) => {
         setFields(values);
     }
 
-
-    function submitHandler(event: any) {
-        event.preventDefault();
-    
-        if (!fieldsIsValid) {
-            if (fields.length >= 1) 
-            {
-                //@ts-ignore
-                fieldRef.current.focus();
-                return;
-            }
-          return;
-        }
-        console.log(fields);
-      }
-
     return (
-        <div className="App">
+        <div className="AddablePercentileBox">
 
             <button type="button" onClick={() => handleAdd()}>
               Add Input
@@ -53,7 +37,7 @@ const AddableInputBox = ({fields, setFields}) => {
             {!fieldsIsValid && <p className="error">Input is required</p>}
             {fields.map((field: any, idx: any) => {
               return (
-                <div key={`${"asdf"}-${idx}`}>
+                <div key={`${"percentile"}-${idx}`}>
                     <span className="flex">
                         <input
                             type="text"
@@ -73,4 +57,4 @@ const AddableInputBox = ({fields, setFields}) => {
     )
 }
 
-export default AddableInputBox;
+export default AddablePercentileBox;
