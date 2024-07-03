@@ -32,41 +32,46 @@ const InputBox = () => {
 
     const handleSubmit = (event: any) => {
         event.preventDefault()
-        console.log("current_balance=" + event.target.current_balance.value)
-        console.log("annual_return=" + event.target.annual_return.value)
-        console.log("return_std=" + event.target.return_std.value)
-        console.log("current_age=" + event.target.current_age.value)
-        console.log("life_expectancy=" + event.target.life_expectancy.value)
-        console.log("inflation=" + event.target.inflation.value)
-        console.log(percentiles)
-        console.log("distribution_type=" + event.target.distribution_type.value)
-        console.log("random_state=" + event.target.random_state.value)
-        console.log(incomeSources)
-        console.log(spendingSources)
+        // console.log("current_balance=" + event.target.current_balance.value)
+        // console.log("annual_return=" + event.target.annual_return.value)
+        // console.log("return_std=" + event.target.return_std.value)
+        // console.log("current_age=" + event.target.current_age.value)
+        // console.log("life_expectancy=" + event.target.life_expectancy.value)
+        // console.log("inflation=" + event.target.inflation.value)
+        // console.log(percentiles)
+        // console.log("distribution_type=" + event.target.distribution_type.value)
+        // console.log("random_state=" + event.target.random_state.value)
+        // console.log(incomeSources)
+        // console.log(spendingSources)
 
 
-        // let data = {
-        //     current_balance: event.target.current_balance.value,
-        //     annual_return: event.target.annual_return.value,
-        //     return_std: event.target.return_std.value,
-        //     current_age: event.target.current_age.value,
-        //     life_expectancy: event.target.life_expectancy.value,
-        //     inflation: event.target.inflation.value,
-        //     distribution_type: event.target.distribution_type.value,
-        //     random_state: event.target.random_state.value,
-        // };
+        let data = {
+            annual_return: event.target.annual_return.value,
+            return_std: event.target.return_std.value,
+            current_balance: event.target.current_balance.value,
+            current_age: event.target.current_age.value,
+            life_expectancy: event.target.life_expectancy.value,
+            inflation: event.target.inflation.value,
+            num_simulations: event.target.num_simulations.value,
+            distribution_type: event.target.distribution_type.value,
+            random_state: event.target.random_state.value,
+            percentiles: percentiles,
+            income_sources: incomeSources,
+            spending_sources: spendingSources
+        };
+        console.log(data)
         
-        // axios.post('Your-API-Endpoint-Here', data)
-        // .then((response) => {
-        //     console.log(response.data);
-        // })
-        // .catch((error) => {
-        //     console.error('Error:', error);
-        // });
+        axios.post('Your-API-Endpoint-Here', data)
+        .then((response) => {
+            console.log(response.data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
     }
 
     return (
-        <div className="w-full">
+        <div className="w-1/2">
             <form className="grid grid-cols-4 gap-2" onSubmit={handleSubmit}>
                 <div className="col-start-1 mb-5">
                     <label htmlFor="current_balance" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current Balance</label>
