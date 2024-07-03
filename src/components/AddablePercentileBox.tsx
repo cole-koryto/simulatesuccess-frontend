@@ -4,9 +4,6 @@ import ReactDOM from "react-dom";
 
 //@ts-ignore
 const AddablePercentileBox = ({fields, setFields}) => {
-    
-
-    const fieldRef = useRef();
 
     const fieldsIsValid = fields.length >= 1 && fields.every((field: any) => field.trim() !== "");
 
@@ -38,12 +35,12 @@ const AddablePercentileBox = ({fields, setFields}) => {
             {fields.map((field: any, idx: any) => {
               return (
                 <div key={`${"percentile"}-${idx}`}>
-                    <span className="flex">
+                    <span className="flex mb-1">
                         <input
                             type="text"
                             placeholder="Enter percentile"
                             value={field || ""}
-                            className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             onChange={(e) => handleChange(idx, e)}
                         />
                         <button type="button" onClick={() => handleRemove(idx)}>
