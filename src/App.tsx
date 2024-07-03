@@ -9,7 +9,9 @@ function App() {
 
   return (
     <>
-      <InputBox/>
+      <div className="grid grid-cols-2 gap-4">
+        <InputBox />
+      </div>
     </>
   )
 }

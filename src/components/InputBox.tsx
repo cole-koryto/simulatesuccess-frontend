@@ -4,45 +4,69 @@ import AddableSourceBox from './AddableSourceBox'
 import axios from 'axios';
 
 
-// // interface MyInputProps 
-// // {
-// //     inputNameArray: Array<string>;
-// // }
-
-
-// // const InputBox = ({inputNameArray}: MyInputProps) => {
-// //   return (
-// //     <div>
-// //         <form className="max-w-sm mx-auto">
-// //             {inputNameArray.map((item, ) => (
-// //                 <div className="mb-5">
-// //                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{item}</label>
-// //                     <input className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
-// //                 </div> 
-// //             ))}
-// //         </form>
-// //     </div>
-// //   )
-// // }
-
 const InputBox = () => {
     const [percentiles, setPercentiles] = useState([""]);
-    const [incomeSources, setIncomeSources] = useState([["", "", "", ""]]);
-    const [spendingSources, setSpendingSources] = useState([["", "", "", ""]]);
+    const [incomeSources, setIncomeSources] = useState([["", "", "", "", ""]]);
+    const [spendingSources, setSpendingSources] = useState([["", "", "", "", ""]]);
+
+    const convertTypes = (data: any) => {
+        try{
+            //Number.isInteger(x)
+
+
+
+            data.annual_return = Number(data.annual_return)
+            data.return_std = Number(data.return_std)
+            data.current_balance = Number(data.current_balance)
+            data.current_age = Number(data.current_age)
+            data.life_expectancy = Number(data.life_expectancy)
+            data.inflation = Number(data.inflation)
+            data.num_simulations = Number(data.num_simulations)
+            data.distribution_type = String(data.distribution_type)
+            data.random_state = Number(data.random_state)
+            data.percentiles = data.percentiles.map(Number)
+            
+            for (let i = 0; i < data.income_sources.length; i++)
+            {
+                data.income_sources[i] = {
+                    title: String(data.income_sources[i][0]),
+                    amount: Number(data.income_sources[i][1]),
+                    starting_age: Number(data.income_sources[i][2]),
+                    ending_age: Number(data.income_sources[i][3]),
+                    growth: Number(data.income_sources[i][4])
+                }
+            }
+            for (let i = 0; i < data.spending_sources.length; i++)
+            {
+                data.spending_sources[i] = {
+                    title: String(data.spending_sources[i][0]),
+                    amount: Number(data.spending_sources[i][1]),
+                    starting_age: Number(data.spending_sources[i][2]),
+                    ending_age: Number(data.spending_sources[i][3]),
+                    growth: Number(data.spending_sources[i][4])
+                }
+            }
+            return data
+        }
+        catch
+        {
+            return null
+        }
+    }
 
     const handleSubmit = (event: any) => {
         event.preventDefault()
-        // console.log("current_balance=" + event.target.current_balance.value)
-        // console.log("annual_return=" + event.target.annual_return.value)
-        // console.log("return_std=" + event.target.return_std.value)
-        // console.log("current_age=" + event.target.current_age.value)
-        // console.log("life_expectancy=" + event.target.life_expectancy.value)
-        // console.log("inflation=" + event.target.inflation.value)
-        // console.log(percentiles)
-        // console.log("distribution_type=" + event.target.distribution_type.value)
-        // console.log("random_state=" + event.target.random_state.value)
-        // console.log(incomeSources)
-        // console.log(spendingSources)
+        console.log("current_balance=" + event.target.current_balance.value)
+        console.log("annual_return=" + event.target.annual_return.value)
+        console.log("return_std=" + event.target.return_std.value)
+        console.log("current_age=" + event.target.current_age.value)
+        console.log("life_expectancy=" + event.target.life_expectancy.value)
+        console.log("inflation=" + event.target.inflation.value)
+        console.log(percentiles)
+        console.log("distribution_type=" + event.target.distribution_type.value)
+        console.log("random_state=" + event.target.random_state.value)
+        console.log(incomeSources)
+        console.log(spendingSources)
 
 
         let data = {
@@ -60,18 +84,28 @@ const InputBox = () => {
             spending_sources: spendingSources
         };
         console.log(data)
-        
-        axios.post('Your-API-Endpoint-Here', data)
-        .then((response) => {
-            console.log(response.data);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+
+        let typedData = convertTypes(data);
+
+        if (typedData != null){
+
+            axios.post('http://127.0.0.1:8000/main/', typedData)
+            .then((response) => {
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('Error: ' + error)
+            });
+        }
+        else
+        {
+            alert("Error invalid inputs. Check your inputs and try again.")
+        }
     }
 
     return (
-        <div className="w-1/2">
+        <div>
             <form className="grid grid-cols-4 gap-2" onSubmit={handleSubmit}>
                 <div className="col-start-1 mb-5">
                     <label htmlFor="current_balance" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current Balance</label>
