@@ -4,7 +4,6 @@ import ReactDOM from "react-dom";
 
 //@ts-ignore
 const AddablePercentileBox = ({fields, setFields}) => {
-    console.log(fields)
     const fieldsIsValid = fields.length >= 1 && fields.every((field: any) => field.trim() !== "");
 
     function handleChange(i: number, event: any) {

@@ -1,17 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 // //https://codesandbox.io/s/react-dynamic-form-xez6d?file=/src/App.js:230-299
 
 
 //@ts-ignore
 const AddableInputBox = ({ groups, setGroups }) => {
-    console.log(groups)
+  // console.log(groups)
+  useEffect(() => {console.log(typeof(groups[0]))})
 
-  const groupsIsValid = groups.every((group: any) => group.every((field: any) => field.trim() !== ''));
+  const groupsIsValid = groups.length >= 1 && groups.every((group: any) => group.length >= 1 && group.every((field: any) => field.trim() !== ""));
+
+  // console.log(groupsIsValid);
 
   const handleChange = (groupIndex: any, fieldIndex: any, event: any) => {
     const updatedGroups = [...groups];
     updatedGroups[groupIndex][fieldIndex] = event.target.value;
+    console.log(groups[0])
     setGroups(updatedGroups);
   };
 
@@ -33,10 +37,11 @@ const AddableInputBox = ({ groups, setGroups }) => {
         Add Group
       </button>
       {!groupsIsValid && <p className="error">All inputs in all groups are required</p>}
-      {groups.map((group: any, groupIndex: any) => (
+      {groups && groups.map((group: any, groupIndex: any) => (
         <div key={`group-${groupIndex}`} className="group">
             <span className="flex gap-1">
-                {group.map((field: any, fieldIndex: any) => (
+              {groupIndex}
+                {group && group.map((field: any, fieldIndex: any) => (
                 <input
                     key={`input-${groupIndex}-${fieldIndex}`}
                     type="text"

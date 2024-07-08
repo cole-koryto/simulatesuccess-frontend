@@ -56,6 +56,7 @@ const InputBox = () => {
 
     const handleSubmit = (event: any) => {
         event.preventDefault()
+
         console.log("current_balance=" + event.target.current_balance.value)
         console.log("annual_return=" + event.target.annual_return.value)
         console.log("return_std=" + event.target.return_std.value)
