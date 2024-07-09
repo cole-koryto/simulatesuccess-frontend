@@ -1,20 +1,17 @@
-import React, { useState, FC } from 'react'
+import React, { useState, FC, useEffect } from 'react'
 import AddablePercentileBox from './AddablePercentileBox'
 import AddableSourceBox from './AddableSourceBox'
+import AddableSourceBoxV2 from './AddableSourceBoxV2'
 import axios from 'axios';
 
 
 const InputBox = () => {
     const [percentiles, setPercentiles] = useState([""]);
-    const [incomeSources, setIncomeSources] = useState([["", "", "", "", ""]]);
-    const [spendingSources, setSpendingSources] = useState([["", "", "", "", ""]]);
+    const [incomeSources, setIncomeSources] = useState([{title: "", amount: "", starting_age: "", ending_age: "", growth: ""}]);
+    const [spendingSources, setSpendingSources] = useState([{title: "", amount: "", starting_age: "", ending_age: "", growth: ""}]);
 
     const convertTypes = (data: any) => {
         try{
-            //Number.isInteger(x)
-
-
-
             data.annual_return = Number(data.annual_return)
             data.return_std = Number(data.return_std)
             data.current_balance = Number(data.current_balance)
@@ -24,51 +21,64 @@ const InputBox = () => {
             data.num_simulations = Number(data.num_simulations)
             data.distribution_type = String(data.distribution_type)
             data.random_state = Number(data.random_state)
-            data.percentiles = data.percentiles.map(Number)
+
+            if (!Number.isInteger(data.annual_return) || !data.annual_return)
+                throw new Error("annual_return is not an integer")
+            if (!data.return_std)
+                throw new Error("return_std is not a number")
+            if (!data.current_balance)
+                throw new Error("current_balance is not a number")
+            if (!Number.isInteger(data.current_age) || !data.current_age)
+                throw new Error("current_age is not an integer")
+            if (!Number.isInteger(data.life_expectancy) || !data.life_expectancy)
+                throw new Error("life_expectancy is not an integer")
+            if (!data.inflation)
+                throw new Error("inflation is not a number")
+            if (!Number.isInteger(data.num_simulations) || !data.num_simulations)
+                throw new Error("num_simulations is not an integer")
+
             
             for (let i = 0; i < data.income_sources.length; i++)
-            {
-                data.income_sources[i] = {
-                    title: String(data.income_sources[i][0]),
-                    amount: Number(data.income_sources[i][1]),
-                    starting_age: Number(data.income_sources[i][2]),
-                    ending_age: Number(data.income_sources[i][3]),
-                    growth: Number(data.income_sources[i][4])
-                }
+            {   
+                data.income_sources[i]["title"] = String(data.income_sources[i]["title"])
+                data.income_sources[i]["amount"] = Number(data.income_sources[i]["amount"])
+                data.income_sources[i]["starting_age"] = Number(data.income_sources[i]["starting_age"])
+                data.income_sources[i]["ending_age"] = Number(data.income_sources[i]["ending_age"])
+                data.income_sources[i]["growth"] = Number(data.income_sources[i]["growth"])
             }
             for (let i = 0; i < data.spending_sources.length; i++)
             {
-                data.spending_sources[i] = {
-                    title: String(data.spending_sources[i][0]),
-                    amount: Number(data.spending_sources[i][1]),
-                    starting_age: Number(data.spending_sources[i][2]),
-                    ending_age: Number(data.spending_sources[i][3]),
-                    growth: Number(data.spending_sources[i][4])
-                }
+                data.spending_sources[i]["title"] = String(data.spending_sources[i]["title"])
+                data.spending_sources[i]["amount"] = Number(data.spending_sources[i]["amount"])
+                data.spending_sources[i]["starting_age"] = Number(data.spending_sources[i]["starting_age"])
+                data.spending_sources[i]["ending_age"] = Number(data.spending_sources[i]["ending_age"])
+                data.spending_sources[i]["growth"] = Number(data.spending_sources[i]["growth"])
             }
             return data
         }
-        catch
+        catch (error)
         {
+            alert("Error invalid inputs. Check your inputs and try again.\n" + error)
+            console.error(error)
             return null
         }
     }
 
     const handleSubmit = (event: any) => {
         event.preventDefault()
-
-        console.log("current_balance=" + event.target.current_balance.value)
-        console.log("annual_return=" + event.target.annual_return.value)
-        console.log("return_std=" + event.target.return_std.value)
-        console.log("current_age=" + event.target.current_age.value)
-        console.log("life_expectancy=" + event.target.life_expectancy.value)
-        console.log("inflation=" + event.target.inflation.value)
-        console.log(percentiles)
-        console.log("distribution_type=" + event.target.distribution_type.value)
-        console.log("random_state=" + event.target.random_state.value)
-        console.log(incomeSources)
-        console.log(spendingSources)
-
+        // console.log("current_balance=" + event.target.current_balance.value)
+        // console.log("annual_return=" + event.target.annual_return.value)
+        // console.log("return_std=" + event.target.return_std.value)
+        // console.log("current_age=" + event.target.current_age.value)
+        // console.log("life_expectancy=" + event.target.life_expectancy.value)
+        // console.log("inflation=" + event.target.inflation.value)
+        // console.log(percentiles)
+        // console.log("distribution_type=" + event.target.distribution_type.value)
+        // console.log("random_state=" + event.target.random_state.value)
+        // console.log("income_sources=")
+        // console.log(incomeSources)
+        // console.log("spending_sources=")
+        // console.log(spendingSources)
 
         let data = {
             annual_return: event.target.annual_return.value,
@@ -85,8 +95,8 @@ const InputBox = () => {
             spending_sources: spendingSources
         };
         console.log(data)
-
-        let typedData = convertTypes(data);
+        
+        const typedData = convertTypes(data);
 
         if (typedData != null){
 
@@ -98,10 +108,6 @@ const InputBox = () => {
                 console.error('Error:', error);
                 alert('Error: ' + error)
             });
-        }
-        else
-        {
-            alert("Error invalid inputs. Check your inputs and try again.")
         }
     }
 
@@ -140,13 +146,21 @@ const InputBox = () => {
                     <label htmlFor="random_state" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Random State</label>
                     <input name="random_state" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                 </div>
-                <div className="col-start-1 col-span-4 mb-5">
+                {/* <div className="col-start-1 col-span-4 mb-5">
                     <p>Enter income sources (title, amount, starting age, ending age, growth)</p>
                     <AddableSourceBox groups={incomeSources} setGroups={setIncomeSources}/>
                 </div>
                 <div className="col-start-1 col-span-4 mb-5">
                     <p>Enter spending sources (title, amount, starting age, ending age, growth)</p>
                     <AddableSourceBox groups={spendingSources} setGroups={setSpendingSources}/>
+                </div> */}
+                <div className="col-start-1 col-span-4 mb-5">
+                    <p>Enter income sources (title, amount, starting age, ending age, growth)</p>
+                    <AddableSourceBoxV2 groups={incomeSources} setGroups={setIncomeSources}/>
+                </div>
+                <div className="col-start-1 col-span-4 mb-5">
+                    <p>Enter spending sources (title, amount, starting age, ending age, growth)</p>
+                    <AddableSourceBoxV2 groups={spendingSources} setGroups={setSpendingSources}/>
                 </div>
                 <div className="col-start-1 col-span-2 mb-5">
                     <p>Enter balance percentiles</p>
