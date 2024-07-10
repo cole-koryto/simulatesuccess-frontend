@@ -1,10 +1,9 @@
 import { useEffect } from "react";
-
+// Based on https://sadam-bapunawar.medium.com/add-and-remove-form-fields-dynamically-using-react-and-react-hooks-3b033c3c0bf5
 
 //@ts-ignore
 const AddableInputBoxV2 = ({ groups, setGroups }) => {
   
-
   let handleChange = (i: any, e: any) => {
     const newGroupValues = [...groups];
     newGroupValues[i][e.target.name] = e.target.value;
@@ -25,14 +24,16 @@ return (
     <div>
       {groups.map((element: any, index: any) => (
         <div className="flex" key={index}>
-          <input 
+          <input
+            required  
             type="text" 
             name="title" 
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             value={element.title || ""} 
             placeholder="Title"
             onChange={e => handleChange(index, e)} />
-          <input 
+          <input
+            required 
             type="text" 
             name="amount" 
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -40,6 +41,7 @@ return (
             placeholder="Amount"
             onChange={e => handleChange(index, e)} />
           <input 
+            required
             type="text" 
             name="starting_age" 
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -47,6 +49,7 @@ return (
             placeholder="Starting age" 
             onChange={e => handleChange(index, e)} />
           <input 
+            required
             type="text" 
             name="ending_age" 
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -54,6 +57,7 @@ return (
             placeholder="Ending age" 
             onChange={e => handleChange(index, e)} />
           <input 
+            required
             type="text" 
             name="growth" 
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
