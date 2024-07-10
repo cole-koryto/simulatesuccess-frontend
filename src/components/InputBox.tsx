@@ -4,8 +4,8 @@ import AddableSourceBox from './AddableSourceBox'
 import AddableSourceBoxV2 from './AddableSourceBoxV2'
 import axios from 'axios';
 
-
-const InputBox = () => {
+//@ts-ignore
+const InputBox = ({ setSimulationData }) => {
     const [percentiles, setPercentiles] = useState([""]);
     const [incomeSources, setIncomeSources] = useState([{title: "", amount: "", starting_age: "", ending_age: "", growth: ""}]);
     const [spendingSources, setSpendingSources] = useState([{title: "", amount: "", starting_age: "", ending_age: "", growth: ""}]);
@@ -22,8 +22,8 @@ const InputBox = () => {
             data.distribution_type = String(data.distribution_type)
             data.random_state = Number(data.random_state)
 
-            if (!Number.isInteger(data.annual_return) || !data.annual_return)
-                throw new Error("annual_return is not an integer")
+            if (!data.annual_return)
+                throw new Error("annual_return is not a number")
             if (!data.return_std)
                 throw new Error("return_std is not a number")
             if (!data.current_balance)
@@ -103,6 +103,7 @@ const InputBox = () => {
             axios.post('http://127.0.0.1:8000/main/', typedData)
             .then((response) => {
                 console.log(response.data);
+                setSimulationData(response.data);
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -116,44 +117,36 @@ const InputBox = () => {
             <form className="grid grid-cols-4 gap-2" onSubmit={handleSubmit}>
                 <div className="col-start-1 mb-5">
                     <label htmlFor="current_balance" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current Balance</label>
-                    <input name="current_balance" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                    <input required name="current_balance" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                 </div>
-                <div className="mb-1">
+                <div className="mb-5">
                     <label htmlFor="annual_return" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Annual Return</label>
-                    <input name="annual_return" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                    <input required defaultValue="0.06" name="annual_return" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                 </div>
                 <div className="mb-5">
                     <label htmlFor="return_std" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Return Standard Deviation</label>
-                    <input name="return_std" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                    <input required defaultValue="0.06" name="return_std" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                 </div>
                 <div className="mb-5">
                     <label htmlFor="current_age" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current Age</label>
-                    <input name="current_age" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                    <input required name="current_age" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                 </div>
                 <div className="col-start-1 mb-5">
                     <label htmlFor="life_expectancy" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Life Expectancy</label>
-                    <input name="life_expectancy" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                    <input required defaultValue="92" name="life_expectancy" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                 </div>
                 <div className="mb-5">
                     <label htmlFor="inflation" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Inflation</label>
-                    <input name="inflation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                    <input required defaultValue="0.03" name="inflation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                 </div>
                 <div className="mb-5">
                     <label htmlFor="num_simulations" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Number of Simulations</label>
-                    <input name="num_simulations" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                    <input required defaultValue="1000" name="num_simulations" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                 </div>
                 <div className="mb-5">
                     <label htmlFor="random_state" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Random State</label>
                     <input name="random_state" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                 </div>
-                {/* <div className="col-start-1 col-span-4 mb-5">
-                    <p>Enter income sources (title, amount, starting age, ending age, growth)</p>
-                    <AddableSourceBox groups={incomeSources} setGroups={setIncomeSources}/>
-                </div>
-                <div className="col-start-1 col-span-4 mb-5">
-                    <p>Enter spending sources (title, amount, starting age, ending age, growth)</p>
-                    <AddableSourceBox groups={spendingSources} setGroups={setSpendingSources}/>
-                </div> */}
                 <div className="col-start-1 col-span-4 mb-5">
                     <p>Enter income sources (title, amount, starting age, ending age, growth)</p>
                     <AddableSourceBoxV2 groups={incomeSources} setGroups={setIncomeSources}/>
@@ -173,7 +166,7 @@ const InputBox = () => {
                         <option value="laplace">Laplace</option>
                     </select>
                 </div>
-                <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+                <button type="submit" className="col-start-2 col-span-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
             </form>
         </div>
     )

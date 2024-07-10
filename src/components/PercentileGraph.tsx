@@ -1,45 +1,47 @@
+import Plot from 'react-plotly.js';
 import React from 'react';
-import { Line } from 'react-chartjs-2';
 
-class PercentileBalances extends React.Component {
-    constructor(props: any) {
-        super(props);
-        this.state = {
-            data: {
-                labels: [], // This should be your years
-                datasets: [] // This should be your percentile balance data
+//@ts-ignore
+const PercentileGraph = ({ percentileHistory }) => {
+    const layout = {
+        title: {
+          text:'Percentile Balance History',
+          font: {
+            size: 24
+          },
+        },
+        xaxis: {
+          title: {
+            text: 'Age',
+            font: {
+              size: 18,
             }
-        };
-    }
+          },
+        },
+        yaxis: {
+          title: {
+            text: 'Balance',
+            font: {
+              size: 18,
+            }
+          }
+        }
+      };
 
-    // Assuming you fetch data in this lifecycle method
-    componentDidMount() {
-        // Fetch data and update state here
-    }
+    return (
+    <Plot
+        data={Object.keys(percentileHistory).map((key: any) => ({
+            x: Object.keys(percentileHistory[key]),
+            y: Object.values(percentileHistory[key]),
+            type: 'scatter',
+            mode: 'lines+markers',
+            name: `${key}%`
+        }))}
+        layout={ layout }
+        useResizeHandler
 
-    render() {
-        return (
-            <div>
-                <h2>Percentile Balances</h2>
-                <Line 
-                    data={this.state.data} 
-                    options={{
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
-                        },
-                        legend: {
-                            display: true,
-                            position: 'bottom'
-                        }
-                    }}
-                />
-            </div>
-        );
-    }
+      />
+  )
 }
 
-export default PercentileBalances;
+export default PercentileGraph;

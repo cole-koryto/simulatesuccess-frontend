@@ -81,7 +81,7 @@ let removeFormFields = (i: any) => {
 return (
     <div>
       {fields.map((element: any, index: any) => (
-        <div className="flex" key={index}>
+        <div className="flex mb-2" key={index}>
           <input
             required  
             type="text" 
