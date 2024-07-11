@@ -4,23 +4,21 @@ import ExportData from './components/ExportData'
 import InputBox from './components/InputBox'
 import PercentileGraph from './components/PercentileGraph'
 import SimulationSimmary from './components/SimulationSummary'
+import IncomeTable from './components/IncomeTable'
 
 function App() {
   const [simulationData, setSimulationData] = useState()
 
   return (
-    <div className="grid grid-cols-2 gap-4">
-      <div className="col-start-1 col-span-1 ">
+    <div className="min-h-screen flex">
+      <div className="flex-1 p-2 ">
         <InputBox setSimulationData={setSimulationData} />
-      </div>
-      <div className="col-start-2 col-span-1">
-        {simulationData && <PercentileGraph percentileHistory={simulationData["percentile_balance_history"]}/>}
-      </div>
-      <div className="col-start-1">
         {simulationData && <ExportData simulationData={simulationData}/>}
-      </div>
-      <div className="col-start-1">
         {simulationData && <SimulationSimmary simulationData={simulationData}/>}
+      </div>
+      <div className="flex-1 p-2">
+        {simulationData && <PercentileGraph percentileHistory={simulationData["percentile_balance_history"]}/>}
+        {simulationData && <IncomeTable NetIncomeData={simulationData["net_income_by_year"]}/>}
       </div>
     </div>
   )
