@@ -10,8 +10,10 @@ const InputBox = ({ setSimulationData }) => {
     const [incomeSources, setIncomeSources] = useState([{title: "", amount: "", starting_age: "", ending_age: "", growth: "0.00"}]);
     const [spendingSources, setSpendingSources] = useState([{title: "", amount: "", starting_age: "", ending_age: "", growth: "0.00"}]);
 
-    const convertTypes = (data: any) => {
+    // Converts types of data and does error checking
+    const processInputs = (data: any) => {
         try{
+            // Converts singular data values to numbers
             data.annual_return = Number(data.annual_return)
             data.return_std = Number(data.return_std)
             data.current_balance = Number(data.current_balance)
@@ -23,6 +25,7 @@ const InputBox = ({ setSimulationData }) => {
             data.random_state = Number(data.random_state)
             data.random_state == 0 ? data.random_state = null: data.random_state = data.random_state
 
+            // Check singular data values
             if (!data.annual_return)
                 throw new Error("annual_return is not a number")
             if (!data.return_std)
@@ -37,12 +40,10 @@ const InputBox = ({ setSimulationData }) => {
                 throw new Error("inflation is not a number")
             if (!Number.isInteger(data.num_simulations) || !data.num_simulations)
                 throw new Error("num_simulations is not an integer")
-            console.log(data.random_state)
-            console.log(!Number.isInteger(data.random_state))
-            console.log(!(data.random_state === null))
             if (!Number.isInteger(data.random_state) && !(data.random_state == null))
                 throw new Error("random_state is not an integer or null")
             
+            // Convert and check income sources
             for (let i = 0; i < data.income_sources.length; i++)
             {   
                 data.income_sources[i]["title"] = String(data.income_sources[i]["title"])
@@ -51,6 +52,8 @@ const InputBox = ({ setSimulationData }) => {
                 data.income_sources[i]["ending_age"] = Number(data.income_sources[i]["ending_age"])
                 data.income_sources[i]["growth"] = Number(data.income_sources[i]["growth"])
             }
+
+            // Convert and check spending sources
             for (let i = 0; i < data.spending_sources.length; i++)
             {
                 data.spending_sources[i]["title"] = String(data.spending_sources[i]["title"])
@@ -71,20 +74,8 @@ const InputBox = ({ setSimulationData }) => {
 
     const handleSubmit = (event: any) => {
         event.preventDefault()
-        // console.log("current_balance=" + event.target.current_balance.value)
-        // console.log("annual_return=" + event.target.annual_return.value)
-        // console.log("return_std=" + event.target.return_std.value)
-        // console.log("current_age=" + event.target.current_age.value)
-        // console.log("life_expectancy=" + event.target.life_expectancy.value)
-        // console.log("inflation=" + event.target.inflation.value)
-        // console.log(percentiles)
-        // console.log("distribution_type=" + event.target.distribution_type.value)
-        // console.log("random_state=" + event.target.random_state.value)
-        // console.log("income_sources=")
-        // console.log(incomeSources)
-        // console.log("spending_sources=")
-        // console.log(spendingSources)
 
+        // Collects data and converts types and does error checking
         let data = {
             annual_return: event.target.annual_return.value,
             return_std: event.target.return_std.value,
@@ -99,12 +90,11 @@ const InputBox = ({ setSimulationData }) => {
             income_sources: incomeSources,
             spending_sources: spendingSources
         };
-        console.log(data)
-        
-        const typedData = convertTypes(data);
+        const typedData = processInputs(data);
+        console.log(typedData)
 
+        // If data is processed correctly send api requst to backend
         if (typedData != null){
-
             axios.post('http://127.0.0.1:8000/main/', typedData)
             .then((response) => {
                 console.log(response.data);
