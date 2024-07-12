@@ -27,7 +27,7 @@ const ExportData = ({ simulationData }) => {
   }
 
   return (
-    <div>
+    <div className="p-2 ">
       <button type='button' onClick={exportToJson}>
         Export to JSON
       </button>

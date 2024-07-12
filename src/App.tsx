@@ -6,7 +6,6 @@ import InputBox from './components/InputBox'
 import PercentileGraph from './components/PercentileGraph'
 import SimulationSimmary from './components/SimulationSummary'
 
-
 function App() {
   const [simulationData, setSimulationData] = useState()
 

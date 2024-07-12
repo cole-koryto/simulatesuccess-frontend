@@ -1,4 +1,4 @@
-import React, { useState, FC, useEffect } from 'react'
+import React, { useState } from 'react'
 import AddablePercentileBox from './AddablePercentileBox'
 import AddableSourceBox from './AddableSourceBox'
 import AddableSourceBoxV2 from './AddableSourceBoxV2'
@@ -9,6 +9,7 @@ const InputBox = ({ setSimulationData }) => {
     const [percentiles, setPercentiles] = useState([""]);
     const [incomeSources, setIncomeSources] = useState([{title: "", amount: "", starting_age: "", ending_age: "", growth: "0.00"}]);
     const [spendingSources, setSpendingSources] = useState([{title: "", amount: "", starting_age: "", ending_age: "", growth: "0.00"}]);
+    const [loading, setLoading] = useState(false);
 
     // Converts types of data and does error checking
     const processInputs = (data: any) => {
@@ -26,23 +27,31 @@ const InputBox = ({ setSimulationData }) => {
             data.random_state == 0 ? data.random_state = null: data.random_state = data.random_state
 
             // Check singular data values
-            if (!data.annual_return)
+            if (!data.annual_return && data.annual_return != 0)
                 throw new Error("annual_return is not a number")
-            if (!data.return_std)
+            if (!data.return_std && data.return_std != 0)
                 throw new Error("return_std is not a number")
-            if (!data.current_balance)
+            if (!data.current_balance && data.current_balance != 0)
                 throw new Error("current_balance is not a number")
-            if (!Number.isInteger(data.current_age) || !data.current_age)
-                throw new Error("current_age is not an integer")
-            if (!Number.isInteger(data.life_expectancy) || !data.life_expectancy)
-                throw new Error("life_expectancy is not an integer")
-            if (!data.inflation)
+            if (!Number.isInteger(data.current_age) || !(data.current_age >= 0))
+                throw new Error("current_age is not an integer or >= 0")
+            if (!Number.isInteger(data.life_expectancy) || !(data.life_expectancy >= 0) || !(data.life_expectancy > data.current_age))
+                throw new Error("life_expectancy is not an integer or >= 0 or greater than current_age")
+            if (!data.inflation && data.inflation != 0)
                 throw new Error("inflation is not a number")
-            if (!Number.isInteger(data.num_simulations) || !data.num_simulations)
-                throw new Error("num_simulations is not an integer")
+            if (!Number.isInteger(data.num_simulations) || !(data.num_simulations >= 1))
+                throw new Error("num_simulations is not an integer or >= 1")
             if (!Number.isInteger(data.random_state) && !(data.random_state == null))
                 throw new Error("random_state is not an integer or null")
             
+            // Convert and check percentiles
+            for (let i = 0; i < data.percentiles.length; i++)
+            {
+                data.percentiles[i] = Number(data.percentiles[i])
+                if (!(0 <= data.percentiles[i] && data.percentiles[i] <= 100))
+                    throw new Error("Percentile is not between 0 and 100 inclusive")
+            }
+
             // Convert and check income sources
             for (let i = 0; i < data.income_sources.length; i++)
             {   
@@ -51,6 +60,15 @@ const InputBox = ({ setSimulationData }) => {
                 data.income_sources[i]["starting_age"] = Number(data.income_sources[i]["starting_age"])
                 data.income_sources[i]["ending_age"] = Number(data.income_sources[i]["ending_age"])
                 data.income_sources[i]["growth"] = Number(data.income_sources[i]["growth"])
+                if (!data.income_sources[i]["amount"])
+                    throw new Error("Income source amount is not a number")
+                console.log(data.income_sources[i]["growth"])
+                if (!Number.isInteger(data.income_sources[i]["starting_age"]) || !(data.income_sources[i]["starting_age"] >= 0))
+                    throw new Error("Income source starting_age is not an integer or >= 0")
+                if (!Number.isInteger(data.income_sources[i]["ending_age"]) || !(data.income_sources[i]["ending_age"] >= 0) || !(data.income_sources[i]["ending_age"] > data.income_sources[i]["starting_age"]))
+                    throw new Error("Income source ending_age is not an integer or >= 0 or greater than starting age")
+                if (!data.income_sources[i]["growth"] && data.income_sources[i]["growth"] != 0)
+                    throw new Error("Income source growth is not a number")
             }
 
             // Convert and check spending sources
@@ -61,6 +79,14 @@ const InputBox = ({ setSimulationData }) => {
                 data.spending_sources[i]["starting_age"] = Number(data.spending_sources[i]["starting_age"])
                 data.spending_sources[i]["ending_age"] = Number(data.spending_sources[i]["ending_age"])
                 data.spending_sources[i]["growth"] = Number(data.spending_sources[i]["growth"])
+                if (!data.spending_sources[i]["amount"])
+                    throw new Error("Spending source amount is not a number")
+                if (!Number.isInteger(data.spending_sources[i]["starting_age"]) || !(data.spending_sources[i]["starting_age"] >= 0))
+                    throw new Error("Spending source starting_age is not an integer or >= 0")
+                if (!Number.isInteger(data.spending_sources[i]["ending_age"]) || !(data.spending_sources[i]["ending_age"] >= 0) || !(data.spending_sources[i]["ending_age"] > data.spending_sources[i]["starting_age"]))
+                    throw new Error("Spending source ending_age is not an integer or >= 0 or greater than starting age")
+                if (!data.spending_sources[i]["growth"] && data.spending_sources[i]["growth"] != 0)
+                    throw new Error("Spending source growth is not a number")
             }
             return data
         }
@@ -74,6 +100,11 @@ const InputBox = ({ setSimulationData }) => {
 
     const handleSubmit = (event: any) => {
         event.preventDefault()
+        if (loading)
+        {
+            alert("Cannot submit another request. Currently loading previous request.")
+            return
+        }
 
         // Collects data and converts types and does error checking
         let data = {
@@ -95,15 +126,19 @@ const InputBox = ({ setSimulationData }) => {
 
         // If data is processed correctly send api requst to backend
         if (typedData != null){
+            setLoading(true)
             axios.post('http://127.0.0.1:8000/main/', typedData)
             .then((response) => {
+                setLoading(false);
                 console.log(response.data);
                 setSimulationData(response.data);
             })
             .catch((error) => {
+                setLoading(false);
                 console.error('Error:', error);
                 alert('Error: ' + error)
             });
+            
         }
     }
 
@@ -119,7 +154,7 @@ const InputBox = ({ setSimulationData }) => {
                     <input required defaultValue="0.06" name="annual_return" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                 </div>
                 <div className="mb-5">
-                    <label htmlFor="return_std" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Return Standard Deviation</label>
+                    <label htmlFor="return_std" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Return Standard Dev.</label>
                     <input required defaultValue="0.06" name="return_std" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                 </div>
                 <div className="mb-5">
@@ -161,7 +196,7 @@ const InputBox = ({ setSimulationData }) => {
                         <option value="laplace">Laplace</option>
                     </select>
                 </div>
-                <button type="submit" className="col-start-2 col-span-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+                <button type="submit" className="col-start-2 col-span-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">{loading ? <>Loading...</> : <>Search</>}</button>
             </form>
         </div>
     )
