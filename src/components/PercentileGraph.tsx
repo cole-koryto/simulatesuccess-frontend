@@ -25,11 +25,15 @@ const PercentileGraph = ({ percentileHistory }) => {
           size: 18,
         }
       }
+    },
+    legend: {
+      x: 1,
+      y: 0.5
     }
   };
 
   return (
-    <Plot
+    <Plot 
       data={Object.keys(percentileHistory).map((key: any) => ({
         x: Object.keys(percentileHistory[key]),
         y: Object.values(percentileHistory[key]),
@@ -39,6 +43,7 @@ const PercentileGraph = ({ percentileHistory }) => {
       }))}
       layout={layout}
       useResizeHandler
+      className="w-full h-[80vh]"
     />
   )
 }

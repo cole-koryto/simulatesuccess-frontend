@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import './App.css'
 import ExportData from './components/ExportData'
 import IncomeTable from './components/IncomeTable'
 import InputBox from './components/InputBox'
@@ -10,13 +9,13 @@ function App() {
   const [simulationData, setSimulationData] = useState()
 
   return (
-    <div className="min-h-screen flex">
-      <div className="flex-1 p-2 ">
+    <div className="flex m-0 p-6 text-center">
+      <div className="w-1/2 m-4">
         <InputBox setSimulationData={setSimulationData} />
         {simulationData && <ExportData simulationData={simulationData} />}
         {simulationData && <SimulationSimmary simulationData={simulationData} />}
       </div>
-      <div className="flex-1 p-2">
+      <div className="w-1/2 m-4">
         {simulationData && <PercentileGraph percentileHistory={simulationData["percentile_balance_history"]} />}
         {simulationData && <IncomeTable NetIncomeData={simulationData["net_income_by_year"]} />}
       </div>

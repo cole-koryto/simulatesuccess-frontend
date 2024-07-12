@@ -22,7 +22,7 @@ const AddablePercentileBox = ({ fields, setFields }) => {
   return (
     <div>
       {fields.map((element: any, index: any) => (
-        <div className="flex mb-2" key={index}>
+        <div className="flex mb-2 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white overflow-hidden" key={index}>
           <input
             required  
             type="text" 
