@@ -7,8 +7,8 @@ import axios from 'axios';
 //@ts-ignore
 const InputBox = ({ setSimulationData }) => {
     const [percentiles, setPercentiles] = useState([""]);
-    const [incomeSources, setIncomeSources] = useState([{title: "", amount: "", starting_age: "", ending_age: "", growth: ""}]);
-    const [spendingSources, setSpendingSources] = useState([{title: "", amount: "", starting_age: "", ending_age: "", growth: ""}]);
+    const [incomeSources, setIncomeSources] = useState([{title: "", amount: "", starting_age: "", ending_age: "", growth: "0.00"}]);
+    const [spendingSources, setSpendingSources] = useState([{title: "", amount: "", starting_age: "", ending_age: "", growth: "0.00"}]);
 
     const convertTypes = (data: any) => {
         try{
@@ -21,6 +21,7 @@ const InputBox = ({ setSimulationData }) => {
             data.num_simulations = Number(data.num_simulations)
             data.distribution_type = String(data.distribution_type)
             data.random_state = Number(data.random_state)
+            data.random_state == 0 ? data.random_state = null: data.random_state = data.random_state
 
             if (!data.annual_return)
                 throw new Error("annual_return is not a number")
@@ -36,7 +37,11 @@ const InputBox = ({ setSimulationData }) => {
                 throw new Error("inflation is not a number")
             if (!Number.isInteger(data.num_simulations) || !data.num_simulations)
                 throw new Error("num_simulations is not an integer")
-
+            console.log(data.random_state)
+            console.log(!Number.isInteger(data.random_state))
+            console.log(!(data.random_state === null))
+            if (!Number.isInteger(data.random_state) && !(data.random_state == null))
+                throw new Error("random_state is not an integer or null")
             
             for (let i = 0; i < data.income_sources.length; i++)
             {   
