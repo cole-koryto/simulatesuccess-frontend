@@ -5,7 +5,7 @@ import AddableSourceBoxV2 from './AddableSourceBoxV2'
 import axios from 'axios';
 
 //@ts-ignore
-const InputBox = ({ setSimulationData }) => {
+const InputBox = ({ setSimulationInputs, setSimulationData }) => {
     const [percentiles, setPercentiles] = useState(["25", "50", "75"]);
     const [incomeSources, setIncomeSources] = useState([{title: "", amount: "", starting_age: "", ending_age: "", growth: "0.00"}]);
     const [spendingSources, setSpendingSources] = useState([{title: "", amount: "", starting_age: "", ending_age: "", growth: "0.00"}]);
@@ -138,7 +138,6 @@ const InputBox = ({ setSimulationData }) => {
                 console.error('Error:', error);
                 alert('Error: ' + error)
             });
-            
         }
     }
 

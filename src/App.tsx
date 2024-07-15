@@ -7,13 +7,14 @@ import SimulationSimmary from './components/SimulationSummary'
 
 function App() {
   const [simulationData, setSimulationData] = useState()
+  const [simulationInputs, setSimulationInputs] = useState()
 
   return (
     <div className="flex m-0 p-6 text-center">
       <div className="w-1/2 m-4">
-        <InputBox setSimulationData={setSimulationData} />
+        <InputBox setSimulationInputs={setSimulationInputs} setSimulationData={setSimulationData} />
         {simulationData && <ExportData simulationData={simulationData} />}
-        {simulationData && <SimulationSimmary simulationData={simulationData} />}
+        {simulationData && <SimulationSimmary simulationSummary={simulationData["simulation_summary"]} />}
       </div>
       <div className="w-1/2 m-4">
         {simulationData && <PercentileGraph percentileHistory={simulationData["percentile_balance_history"]} />}
