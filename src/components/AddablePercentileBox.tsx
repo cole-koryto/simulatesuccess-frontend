@@ -38,5 +38,4 @@ const AddablePercentileBox = ({ fields, setFields }) => {
     </div>
   )
 }
-
 export default AddablePercentileBox;

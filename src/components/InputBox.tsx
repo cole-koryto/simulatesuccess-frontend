@@ -10,6 +10,24 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
     const [incomeSources, setIncomeSources] = useState([{title: "", amount: "", starting_age: "", ending_age: "", growth: "0.00"}]);
     const [spendingSources, setSpendingSources] = useState([{title: "", amount: "", starting_age: "", ending_age: "", growth: "0.00"}]);
     const [loading, setLoading] = useState(false);
+    const [file, setFile] = useState();
+    const [fileContent, setFileContent] = useState();
+
+    const handleFileChange = (event: any) => {
+        try{
+        const localFile = event.target.files[0]
+        const fileReader = new FileReader();
+        fileReader.readAsText(file, "UTF-8");
+        fileReader.onload = event => {
+            setFileContent(JSON.parse(event.target.result));
+        }
+        setFile(localFile)
+        }
+        catch (error){
+            alert("Error processing json file. Check your json file and try again.\n" + error)
+            console.error(error)
+        }  
+    }
 
     // Converts types of data and does error checking
     const processInputs = (data: any) => {
@@ -60,7 +78,7 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
                 data.income_sources[i]["starting_age"] = Number(data.income_sources[i]["starting_age"])
                 data.income_sources[i]["ending_age"] = Number(data.income_sources[i]["ending_age"])
                 data.income_sources[i]["growth"] = Number(data.income_sources[i]["growth"])
-                if (!data.income_sources[i]["amount"])
+                if (!data.income_sources[i]["amount"] && data.income_sources[i]["amount"] != 0)
                     throw new Error("Income source amount is not a number")
                 console.log(data.income_sources[i]["growth"])
                 if (!Number.isInteger(data.income_sources[i]["starting_age"]) || !(data.income_sources[i]["starting_age"] >= 0))
@@ -79,7 +97,7 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
                 data.spending_sources[i]["starting_age"] = Number(data.spending_sources[i]["starting_age"])
                 data.spending_sources[i]["ending_age"] = Number(data.spending_sources[i]["ending_age"])
                 data.spending_sources[i]["growth"] = Number(data.spending_sources[i]["growth"])
-                if (!data.spending_sources[i]["amount"])
+                if (!data.spending_sources[i]["amount"] && data.spending_sources[i]["amount"] != 0)
                     throw new Error("Spending source amount is not a number")
                 if (!Number.isInteger(data.spending_sources[i]["starting_age"]) || !(data.spending_sources[i]["starting_age"] >= 0))
                     throw new Error("Spending source starting_age is not an integer or >= 0")
@@ -98,15 +116,7 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
         }
     }
 
-    const handleSubmit = (event: any) => {
-        event.preventDefault()
-        if (loading)
-        {
-            alert("Cannot submit another request. Currently loading previous request.")
-            return
-        }
-
-        // Collects data and converts types and does error checking
+    const getDataFromForm = (event: any) => {
         let data = {
             annual_return: event.target.annual_return.value,
             return_std: event.target.return_std.value,
@@ -121,8 +131,38 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
             income_sources: incomeSources,
             spending_sources: spendingSources
         };
+        return data;
+    }
+
+    const handleSubmit = (event: any) => {
+        event.preventDefault()
+        if(loading)
+        {
+            alert("Cannot submit another request. Currently loading previous request.")
+            return
+        }
+        if(!file)
+        {
+            alert("Cannot submit without file selected.")
+            return
+        }
+
+        // Collects data from from or json and converts types and does error checking
+        console.log(event.target.id)
+        let data = null;
+        if(event.target.id == "form")
+            data = getDataFromForm(event);
+        else if(event.target.id == "json_form")
+            data = fileContent;
+        else
+        {
+            alert("Error submission from invalid source")
+            return
+        }
+        console.log("data", data)
+
         const typedData = processInputs(data);
-        console.log(typedData)
+        console.log("typedData", typedData)
 
         // If data is processed correctly send api requst to backend
         if (typedData != null){
@@ -143,7 +183,7 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
 
     return (
         <div>
-            <form className="grid grid-cols-4 gap-2 bg-zinc-300 border-b dark:bg-gray-800 dark:border-gray-700 p-5 rounded" onSubmit={handleSubmit}>
+            <form id="form" className="grid grid-cols-4 gap-2 bg-zinc-300 border-b dark:bg-gray-800 dark:border-gray-700 p-5 rounded" onSubmit={handleSubmit}>
                 <div className="col-start-1 mb-5">
                     <label htmlFor="current_balance" className="block mb-2 font-medium text-gray-900 dark:text-white">Current Balance</label>
                     <input required name="current_balance" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
@@ -196,6 +236,10 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
                     </select>
                 </div>
                 <button type="submit" className="col-start-2 col-span-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">{loading ? <>Loading...</> : <>Submit</>}</button>
+            </form>
+            <form id="json_form" onSubmit={handleSubmit}>
+                <input type="file" accept=".json,application/json" onChange={handleFileChange}/>
+                <button type="submit" >Submit Json Inputs</button>
             </form>
         </div>
     )
