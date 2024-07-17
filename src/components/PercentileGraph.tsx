@@ -1,5 +1,4 @@
 import Plot from 'react-plotly.js';
-import React from 'react';
 
 //@ts-ignore
 const PercentileGraph = ({ percentileHistory }) => {

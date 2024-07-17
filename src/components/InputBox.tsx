@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import AddablePercentileBox from './AddablePercentileBox'
-import AddableSourceBox from './AddableSourceBox'
 import AddableSourceBoxV2 from './AddableSourceBoxV2'
 import axios from 'axios';
 
@@ -21,7 +20,8 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
             const fileReader = new FileReader();
             fileReader.readAsText(localFile, "UTF-8");
             fileReader.onload = event => {
-                setFileContent(JSON.parse(event.target.result));
+                const reader = event.target as FileReader;
+                setFileContent(JSON.parse(reader.result as string));
         }
         setFile(localFile)
         }
