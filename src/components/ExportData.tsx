@@ -34,5 +34,4 @@ const ExportData = ({ simulationData }) => {
     </div>
   )
 }
-
 export default ExportData

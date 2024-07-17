@@ -70,5 +70,4 @@ const AddableInputBoxV2 = ({ groups, setGroups }) => {
     </div>
   )
 }
-
 export default AddableInputBoxV2;

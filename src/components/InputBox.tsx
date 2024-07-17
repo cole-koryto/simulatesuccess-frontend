@@ -244,5 +244,4 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
         </div>
     )
 }
-
 export default InputBox
