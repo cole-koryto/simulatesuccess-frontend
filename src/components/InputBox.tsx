@@ -15,17 +15,19 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
 
     const handleFileChange = (event: any) => {
         try{
-        const localFile = event.target.files[0]
-        const fileReader = new FileReader();
-        fileReader.readAsText(localFile, "UTF-8");
-        fileReader.onload = event => {
-            setFileContent(JSON.parse(event.target.result));
+            if (!event.target.files)
+                throw new Error("Error files do not exist in submission event.")
+            const localFile = event.target.files[0];
+            const fileReader = new FileReader();
+            fileReader.readAsText(localFile, "UTF-8");
+            fileReader.onload = event => {
+                setFileContent(JSON.parse(event.target.result));
         }
         setFile(localFile)
         }
         catch (error){
-            alert("Error processing json file. Check your json file and try again.\n" + error)
-            console.error(error)
+            alert("Error processing json file. Check your json file and try again.\n" + error);
+            console.error(error);
         }  
     }
 
@@ -80,7 +82,6 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
                 data.income_sources[i]["growth"] = Number(data.income_sources[i]["growth"])
                 if (!data.income_sources[i]["amount"] && data.income_sources[i]["amount"] != 0)
                     throw new Error("Income source amount is not a number")
-                console.log(data.income_sources[i]["growth"])
                 if (!Number.isInteger(data.income_sources[i]["starting_age"]) || !(data.income_sources[i]["starting_age"] >= 0))
                     throw new Error("Income source starting_age is not an integer or >= 0")
                 if (!Number.isInteger(data.income_sources[i]["ending_age"]) || !(data.income_sources[i]["ending_age"] >= 0) || !(data.income_sources[i]["ending_age"] > data.income_sources[i]["starting_age"]))
@@ -148,7 +149,6 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
         }
 
         // Collects data from from or json and converts types and does error checking
-        console.log(event.target.id)
         let data = null;
         if(event.target.id == "form")
             data = getDataFromForm(event);
@@ -170,7 +170,7 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
             axios.post('http://127.0.0.1:8000/main/', typedData)
             .then((response) => {
                 setLoading(false);
-                console.log(response.data);
+                console.log("response", response.data);
                 setSimulationData(response.data);
             })
             .catch((error) => {
@@ -239,7 +239,7 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
             </form>
             <form id="json_form" onSubmit={handleSubmit} className="mt-5">
                 <input type="file" accept=".json,application/json" className="text-gray-900 dark:text-white" onChange={handleFileChange}/>
-                <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit Inputs From JSON</button>
+                <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">{loading ? <>Loading...</> : <>Submit Inputs From JSON</>}</button>
             </form>
         </div>
     )
