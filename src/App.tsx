@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import ExportData from './components/ExportData'
-import IncomeTable from './components/IncomeTable'
+import IncomeTable from './components/CashFlowsTable'
 import InputBox from './components/InputBox'
 import PercentileGraph from './components/PercentileGraph'
 import SimulationSimmary from './components/SimulationSummary'
@@ -18,7 +18,7 @@ function App() {
       </div>
       <div className="w-1/2 m-4">
         {simulationData && <PercentileGraph percentileHistory={simulationData["percentile_balance_history"]} />}
-        {simulationData && <IncomeTable NetIncomeData={simulationData["net_income_by_year"]} />}
+        {simulationData && <IncomeTable TotalIncomeData={simulationData["income_by_year"]} TotalSpendingData={simulationData["spending_by_year"]} NetIncomeData={simulationData["net_income_by_year"]} />}
       </div>
     </div>
   )

@@ -17,7 +17,7 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
         try{
         const localFile = event.target.files[0]
         const fileReader = new FileReader();
-        fileReader.readAsText(file, "UTF-8");
+        fileReader.readAsText(localFile, "UTF-8");
         fileReader.onload = event => {
             setFileContent(JSON.parse(event.target.result));
         }
@@ -182,8 +182,8 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
     }
 
     return (
-        <div>
-            <form id="form" className="grid grid-cols-4 gap-2 bg-zinc-300 border-b dark:bg-gray-800 dark:border-gray-700 p-5 rounded" onSubmit={handleSubmit}>
+        <div className="bg-zinc-300 border-b dark:bg-gray-800 dark:border-gray-700 p-5 rounded">
+            <form id="form" className="grid grid-cols-4 gap-2 " onSubmit={handleSubmit}>
                 <div className="col-start-1 mb-5">
                     <label htmlFor="current_balance" className="block mb-2 font-medium text-gray-900 dark:text-white">Current Balance</label>
                     <input required name="current_balance" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
@@ -224,22 +224,22 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
                     <p className="block mb-2 font-medium text-gray-900 dark:text-white">Enter spending sources (title, amount, starting age, ending age, growth)</p>
                     <AddableSourceBoxV2 groups={spendingSources} setGroups={setSpendingSources}/>
                 </div>
-                <div className="col-start-1 col-span-2 mb-5">
+                <div className="col-start-1 col-span-2">
                     <p className="block mb-2 font-medium text-gray-900 dark:text-white">Enter balance percentiles</p>
                     <AddablePercentileBox fields={percentiles} setFields={setPercentiles}/>
                 </div>
-                <div className="col-span-2 mb-5">
+                <div className="col-span-2">
                     <label htmlFor="distribution_type" className="block mb-2 font-medium text-gray-900 dark:text-white">Select Distribution Type</label>
                     <select name="distribution_type" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value="normal">Normal</option>
                         <option value="laplace">Laplace</option>
                     </select>
                 </div>
-                <button type="submit" className="col-start-2 col-span-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">{loading ? <>Loading...</> : <>Submit</>}</button>
+                <button type="submit" className="col-start-2 col-span-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">{loading ? <>Loading...</> : <>Submit Form Inputs</>}</button>
             </form>
-            <form id="json_form" onSubmit={handleSubmit}>
-                <input type="file" accept=".json,application/json" onChange={handleFileChange}/>
-                <button type="submit" >Submit Json Inputs</button>
+            <form id="json_form" onSubmit={handleSubmit} className="mt-5">
+                <input type="file" accept=".json,application/json" className="text-gray-900 dark:text-white" onChange={handleFileChange}/>
+                <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit Inputs From JSON</button>
             </form>
         </div>
     )
