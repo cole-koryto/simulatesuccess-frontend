@@ -13,7 +13,8 @@ function App() {
     <div className="flex m-0 p-6 text-center">
       <div className="w-1/2 m-4">
         <InputBox setSimulationInputs={setSimulationInputs} setSimulationData={setSimulationData} />
-        {simulationData && <ExportData simulationData={simulationData} />}
+        {simulationData && <ExportData data={simulationInputs} displayText="Export Simulation Inputs to JSON" fileName="simulation_inputs.json" />}
+        {simulationData && <ExportData data={simulationData} displayText="Export Results to JSON" fileName="simulation_results.json" />}
         {simulationData && <SimulationSimmary simulationSummary={simulationData["simulation_summary"]} />}
       </div>
       <div className="w-1/2 m-4">

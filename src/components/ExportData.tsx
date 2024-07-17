@@ -1,5 +1,5 @@
 //@ts-ignore
-const ExportData = ({ simulationData }) => {
+const ExportData = ({ data, displayText, fileName }) => {
   const downloadFile = ({ data, fileName, fileType }: any) => {
     // Create a blob with the data we want to download as a file
     const blob = new Blob([data], { type: fileType })
@@ -20,16 +20,16 @@ const ExportData = ({ simulationData }) => {
   const exportToJson = (event: any) => {
     event.preventDefault()
     downloadFile({
-      data: JSON.stringify(simulationData),
-      fileName: 'simulation_summary.json',
+      data: JSON.stringify(data, null, 2),
+      fileName: fileName,
       fileType: 'text/json',
     })
   }
 
   return (
     <div className="p-6">
-      <button type='button' onClick={exportToJson}>
-        Export Results to JSON
+      <button type='button' className="border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white overflow-hidden" onClick={exportToJson}>
+        {displayText}
       </button>
     </div>
   )

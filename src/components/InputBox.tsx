@@ -171,6 +171,7 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
             .then((response) => {
                 setLoading(false);
                 console.log("response", response.data);
+                setSimulationInputs(typedData)
                 setSimulationData(response.data);
             })
             .catch((error) => {
