@@ -142,18 +142,20 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
             alert("Cannot submit another request. Currently loading previous request.")
             return
         }
-        if(!file)
-        {
-            alert("Cannot submit without file selected.")
-            return
-        }
 
         // Collects data from from or json and converts types and does error checking
         let data = null;
         if(event.target.id == "form")
             data = getDataFromForm(event);
         else if(event.target.id == "json_form")
+        {
+            if(!file)
+            {
+                alert("Cannot submit from json file without file selected.")
+                return
+            }
             data = fileContent;
+        }
         else
         {
             alert("Error submission from invalid source")
