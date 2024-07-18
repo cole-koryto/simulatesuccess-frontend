@@ -1,3 +1,4 @@
+import { Datum } from 'plotly.js';
 import Plot from 'react-plotly.js';
 
 //@ts-ignore
@@ -34,8 +35,8 @@ const PercentileGraph = ({ percentileHistory }) => {
   return (
     <Plot 
       data={Object.keys(percentileHistory).map((key: any) => ({
-        x: Object.keys(percentileHistory[key]),
-        y: Object.values(percentileHistory[key]),
+        x: Object.keys(percentileHistory[key]) as Datum[],
+        y: Object.values(percentileHistory[key]) as Datum[],
         type: 'scatter',
         mode: 'lines+markers',
         name: `${key}%`
