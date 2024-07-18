@@ -9,7 +9,6 @@ import SimulationSimmary from './components/SimulationSummary'
 injectSpeedInsights();
 
 function App() {
-  return (<div>Under maintenance</div>)
   const [simulationData, setSimulationData] = useState()
   const [simulationInputs, setSimulationInputs] = useState()
 
