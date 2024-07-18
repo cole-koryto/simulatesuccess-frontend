@@ -1,9 +1,12 @@
+import { injectSpeedInsights } from '@vercel/speed-insights';
 import { useState } from 'react'
 import CashFLowsTable from './components/CashFlowsTable'
 import ExportData from './components/ExportData'
 import InputBox from './components/InputBox'
 import PercentileGraph from './components/PercentileGraph'
 import SimulationSimmary from './components/SimulationSummary'
+
+injectSpeedInsights();
 
 function App() {
   const [simulationData, setSimulationData] = useState()
