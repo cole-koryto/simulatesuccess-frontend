@@ -169,7 +169,7 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
         // If data is processed correctly send api requst to backend
         if (typedData != null){
             setLoading(true)
-            axios.post('http://127.0.0.1:8000/main/', typedData)
+            axios.post('http://3.129.189.192/', typedData)
             .then((response) => {
                 setLoading(false);
                 console.log("response", response.data);
