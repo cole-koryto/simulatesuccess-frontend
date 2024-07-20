@@ -12,6 +12,19 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
     const [file, setFile] = useState();
     const [fileContent, setFileContent] = useState();
 
+    const expectedResponseKeys = ["simulation_summary", "percentile_sets", "balance_history", "return_history", "percentile_balance_history", "income_by_year", "spending_by_year", "net_income_by_year"]
+
+
+    const isResponseValid = (responseData: any) => {
+        if(!(JSON.stringify(expectedResponseKeys) == JSON.stringify(Object.keys(responseData))))
+        {
+            console.error("Error response received but not in expected format. Please try disabling adblock tools.")
+            alert("Error response received but not in expected format. Please try disabling adblock tools.")
+            return false
+        }
+    }
+
+
     const handleFileChange = (event: any) => {
         try{
             if (!event.target.files)
@@ -173,7 +186,9 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
             .then((response) => {
                 setLoading(false);
                 console.log("response", response.data);
-                setSimulationInputs(typedData)
+                if(!isResponseValid(response.data))
+                    return
+                setSimulationInputs(typedData);
                 setSimulationData(response.data);
             })
             .catch((error) => {
