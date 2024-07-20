@@ -22,6 +22,8 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
             alert("Error response received but not in expected format. Please try disabling adblock tools.")
             return false
         }
+
+        return true
     }
 
 
