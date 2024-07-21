@@ -233,8 +233,11 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
                     <input required defaultValue="1000" name="num_simulations" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                 </div>
                 <div className="mb-5">
-                    <label htmlFor="random_state" className="block mb-2 font-medium text-gray-900 dark:text-white">Random State</label>
-                    <input name="random_state" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                    <label htmlFor="random_state" className="block mb-2 font-medium text-gray-900 dark:text-white">Repeatable Results</label>
+                    <select name="random_state" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value="">False</option>
+                        <option value="1">True</option>
+                    </select>
                 </div>
                 <div className="col-start-1 col-span-4 mb-5">
                     <p className="block mb-2 font-medium text-gray-900 dark:text-white">Enter income sources (title, amount, starting age, ending age, growth)</p>
