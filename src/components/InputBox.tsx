@@ -63,23 +63,27 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
 
             // Check singular data values
             if (!data.annual_return && data.annual_return != 0)
-                throw new Error("annual_return is not a number")
+                throw new Error("annual_return is not a number.")
             if (!data.return_std && data.return_std != 0)
-                throw new Error("return_std is not a number")
+                throw new Error("return_std is not a number.")
             if (!data.current_balance && data.current_balance != 0)
-                throw new Error("current_balance is not a number")
+                throw new Error("current_balance is not a number.")
             if (!Number.isInteger(data.current_age) || !(data.current_age >= 0))
-                throw new Error("current_age is not an integer or not >= 0")
+                throw new Error("current_age is not an integer or not >= 0.")
             if (!Number.isInteger(data.life_expectancy) || !(data.life_expectancy >= 0) || !(data.life_expectancy > data.current_age))
-                throw new Error("life_expectancy is not an integer or not >= 0 or not greater than current_age")
+                throw new Error("life_expectancy is not an integer or not >= 0 or not greater than current_age.")
             if (!data.inflation && data.inflation != 0)
-                throw new Error("inflation is not a number")
+                throw new Error("inflation is not a number.")
             if (!Number.isInteger(data.num_simulations) || !(data.num_simulations >= 1))
-                throw new Error("num_simulations is not an integer or not >= 1")
+                throw new Error("num_simulations is not an integer or not >= 1.")
             if (!Number.isInteger(data.random_state) && !(data.random_state == null))
-                throw new Error("random_state is not an integer or not null")
+                throw new Error("random_state is not an integer or not null.")
             
             // Convert and check percentiles
+            if (data.percentiles.length < 1)
+            {
+                throw new Error("There must be at least one percentile.")
+            }
             for (let i = 0; i < data.percentiles.length; i++)
             {
                 data.percentiles[i] = Number(data.percentiles[i])
@@ -96,13 +100,13 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
                 data.income_sources[i]["ending_age"] = Number(data.income_sources[i]["ending_age"])
                 data.income_sources[i]["growth"] = Number(data.income_sources[i]["growth"])
                 if (!data.income_sources[i]["amount"] && data.income_sources[i]["amount"] != 0)
-                    throw new Error("Income source amount is not a number")
+                    throw new Error("Income source amount is not a number.")
                 if (!Number.isInteger(data.income_sources[i]["starting_age"]) || !(data.income_sources[i]["starting_age"] >= 0) || !(data.income_sources[i]["starting_age"] >= data.current_age))
-                    throw new Error("Income source starting_age is not an integer or not >= 0 or not >= current_age")
+                    throw new Error("Income source starting_age is not an integer or not >= 0 or not >= current_age.")
                 if (!Number.isInteger(data.income_sources[i]["ending_age"]) || !(data.income_sources[i]["ending_age"] >= 0) || !(data.income_sources[i]["ending_age"] > data.income_sources[i]["starting_age"]))
-                    throw new Error("Income source ending_age is not an integer or not >= 0 or not greater than starting age")
+                    throw new Error("Income source ending_age is not an integer or not >= 0 or not greater than starting age.")
                 if (!data.income_sources[i]["growth"] && data.income_sources[i]["growth"] != 0)
-                    throw new Error("Income source growth is not a number")
+                    throw new Error("Income source growth is not a number.")
             }
 
             // Convert and check spending sources
@@ -114,13 +118,13 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
                 data.spending_sources[i]["ending_age"] = Number(data.spending_sources[i]["ending_age"])
                 data.spending_sources[i]["growth"] = Number(data.spending_sources[i]["growth"])
                 if (!data.spending_sources[i]["amount"] && data.spending_sources[i]["amount"] != 0)
-                    throw new Error("Spending source amount is not a number")
+                    throw new Error("Spending source amount is not a number.")
                 if (!Number.isInteger(data.spending_sources[i]["starting_age"]) || !(data.spending_sources[i]["starting_age"] >= 0) || !(data.spending_sources[i]["starting_age"] >= data.current_age))
-                    throw new Error("Spending source starting_age is not an integer or not >= 0 or not >= current_age")
+                    throw new Error("Spending source starting_age is not an integer or not >= 0 or not >= current_age.")
                 if (!Number.isInteger(data.spending_sources[i]["ending_age"]) || !(data.spending_sources[i]["ending_age"] >= 0) || !(data.spending_sources[i]["ending_age"] > data.spending_sources[i]["starting_age"]))
-                    throw new Error("Spending source ending_age is not an integer or >= 0 or not greater than starting age")
+                    throw new Error("Spending source ending_age is not an integer or >= 0 or not greater than starting age.")
                 if (!data.spending_sources[i]["growth"] && data.spending_sources[i]["growth"] != 0)
-                    throw new Error("Spending source growth is not a number")
+                    throw new Error("Spending source growth is not a number.")
             }
             return data
         }
