@@ -4,7 +4,7 @@ import CashFLowsTable from './components/CashFlowsTable'
 import ExportData from './components/ExportData'
 import InputBox from './components/InputBox'
 import PercentileGraph from './components/PercentileGraph'
-import SimulationSimmary from './components/SimulationSummary'
+import SimulationSummary from './components/SimulationSummary'
 
 injectSpeedInsights();
 
@@ -18,7 +18,7 @@ function App() {
         <InputBox setSimulationInputs={setSimulationInputs} setSimulationData={setSimulationData} />
         {simulationData && <ExportData data={simulationInputs} displayText="Export Simulation Inputs to JSON" fileName="simulation_inputs.json" />}
         {simulationData && <ExportData data={simulationData} displayText="Export Results to JSON" fileName="simulation_results.json" />}
-        {simulationData && <SimulationSimmary simulationSummary={simulationData["simulation_summary"]} />}
+        {simulationData && <SimulationSummary simulationSummary={simulationData["simulation_summary"]} />}
       </div>
       <div className="w-1/2 m-4">
         {simulationData && <PercentileGraph percentileHistory={simulationData["percentile_balance_history"]} />}

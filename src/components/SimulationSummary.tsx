@@ -1,5 +1,5 @@
 //@ts-ignore
-const SimulationSimmary = ({ simulationSummary }) => {
+const SimulationSummary = ({ simulationSummary }) => {
     return (
 
         <div className="flex-wrap flex-column bg-gray-800 border-b border-gray-700 p-5 rounded">
@@ -45,4 +45,4 @@ const SimulationSimmary = ({ simulationSummary }) => {
         </div>
     )
 }
-export default SimulationSimmary
+export default SimulationSummary
