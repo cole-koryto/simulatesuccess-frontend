@@ -14,6 +14,9 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
 
     const expectedResponseKeys = ["simulation_summary", "percentile_sets", "balance_history", "return_history", "percentile_balance_history", "income_by_year", "spending_by_year", "net_income_by_year"]
 
+    const [currentBalance, setCurrentBalance] = useState("");
+    const [numSimulations, setNumSimulations] = useState("10000");
+
 
     const isResponseValid = (responseData: any) => {
         if(!(JSON.stringify(expectedResponseKeys) == JSON.stringify(Object.keys(responseData))))
@@ -74,8 +77,8 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
                 throw new Error("life_expectancy is not an integer or not >= 0 or not greater than current_age.")
             if (!data.inflation && data.inflation != 0)
                 throw new Error("inflation is not a number.")
-            if (!Number.isInteger(data.num_simulations) || !(data.num_simulations >= 1))
-                throw new Error("num_simulations is not an integer or not >= 1.")
+            if (!Number.isInteger(data.num_simulations) || !(data.num_simulations <= 10000) || !(data.num_simulations >= 1))
+                throw new Error("num_simulations is not an integer or not <= 10000 or not >= 1.")
             if (!Number.isInteger(data.random_state) && !(data.random_state == null))
                 throw new Error("random_state is not an integer or not null.")
             
@@ -140,11 +143,11 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
         let data = {
             annual_return: event.target.annual_return.value,
             return_std: event.target.return_std.value,
-            current_balance: event.target.current_balance.value,
+            current_balance: currentBalance,
             current_age: event.target.current_age.value,
             life_expectancy: event.target.life_expectancy.value,
             inflation: event.target.inflation.value,
-            num_simulations: event.target.num_simulations.value,
+            num_simulations: numSimulations,
             distribution_type: event.target.distribution_type.value,
             random_state: event.target.random_state.value,
             percentiles: percentiles,
@@ -185,8 +188,9 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
         const typedData = processInputs(data);
         console.log("typedData", typedData)
 
-        // If data is processed correctly send api requst to backend
-        if (typedData != null){
+        // If data is processed correctly send api request to backend
+        if (typedData != null)
+        {
             setLoading(true)
             axios.post('https://simulatesuccess.info/', typedData)
             .then((response) => {
@@ -210,7 +214,12 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
             <form id="form" className="grid grid-cols-4 gap-2 " onSubmit={handleSubmit}>
                 <div className="col-start-1 mb-5">
                     <label htmlFor="current_balance" className="block mb-2 font-medium text-gray-900 dark:text-white">Current Balance</label>
-                    <input required name="current_balance" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                    <input required 
+                        name="current_balance" 
+                        value={currentBalance ? Number(currentBalance).toLocaleString() : ""}
+                        onChange={(e) => setCurrentBalance(e.target.value.replace(/[,\D]/g, ""))}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    </input>
                 </div>
                 <div className="mb-5">
                     <label htmlFor="annual_return" className="block mb-2 font-medium text-gray-900 dark:text-white">Annual Return</label>
@@ -234,7 +243,12 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
                 </div>
                 <div className="mb-5">
                     <label htmlFor="num_simulations" className="block mb-2 font-medium text-gray-900 dark:text-white">Number of Simulations</label>
-                    <input required defaultValue="1000" name="num_simulations" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                    <input required 
+                        name="num_simulations" 
+                        value={numSimulations ? Number(numSimulations).toLocaleString() : ""}
+                        onChange={(e) => setNumSimulations(e.target.value.replace(/[,\D]/g, ""))}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    </input>
                 </div>
                 <div className="mb-5">
                     <label htmlFor="random_state" className="block mb-2 font-medium text-gray-900 dark:text-white">Repeatable Results</label>

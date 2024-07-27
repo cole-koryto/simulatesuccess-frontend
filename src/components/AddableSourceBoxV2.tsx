@@ -5,7 +5,10 @@ const AddableInputBoxV2 = ({ groups, setGroups }) => {
 
   let handleChange = (i: any, e: any) => {
     const newGroupValues = [...groups];
-    newGroupValues[i][e.target.name] = e.target.value;
+    if (e.target.name == "amount")
+      newGroupValues[i][e.target.name] = e.target.value.replace(/[,\D]/g, "");
+    else
+      newGroupValues[i][e.target.name] = e.target.value;
     setGroups(newGroupValues);
   }
 
@@ -36,7 +39,7 @@ const AddableInputBoxV2 = ({ groups, setGroups }) => {
             type="text"
             name="amount"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            value={element.amount || ""}
+            value={element.amount ? Number(element.amount).toLocaleString() : ""}
             placeholder="Amount"
             onChange={e => handleChange(index, e)} />
           <input
