@@ -25,12 +25,12 @@ const AddableInputBoxV2 = ({ groups, setGroups }) => {
   return (
     <div>
       {groups.map((element: any, index: any) => (
-        <div className="flex mb-2 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white overflow-hidden" key={index}>
+        <div className="flex mb-2 border border-gray-600 rounded-lg placeholder-gray-400 text-white overflow-hidden" key={index}>
           <input
             required
             type="text"
             name="title"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="bg-gray-700 border border-gray-600 text-white text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"
             value={element.title || ""}
             placeholder="Title"
             onChange={e => handleChange(index, e)} />
@@ -38,7 +38,7 @@ const AddableInputBoxV2 = ({ groups, setGroups }) => {
             required
             type="text"
             name="amount"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="bg-gray-700 border border-gray-600 text-white text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"
             value={element.amount ? Number(element.amount).toLocaleString() : ""}
             placeholder="Amount"
             onChange={e => handleChange(index, e)} />
@@ -46,7 +46,7 @@ const AddableInputBoxV2 = ({ groups, setGroups }) => {
             required
             type="text"
             name="starting_age"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="bg-gray-700 border border-gray-600 text-white text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"
             value={element.starting_age || ""}
             placeholder="Starting age"
             onChange={e => handleChange(index, e)} />
@@ -54,7 +54,7 @@ const AddableInputBoxV2 = ({ groups, setGroups }) => {
             required
             type="text"
             name="ending_age"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="bg-gray-700 border border-gray-600 text-white text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"
             value={element.ending_age || ""}
             placeholder="Ending age"
             onChange={e => handleChange(index, e)} />
@@ -62,7 +62,7 @@ const AddableInputBoxV2 = ({ groups, setGroups }) => {
             required
             type="text"
             name="growth"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="bg-gray-700 border border-gray-600 text-white text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"
             value={element.growth}
             placeholder="Growth"
             onChange={e => handleChange(index, e)} />

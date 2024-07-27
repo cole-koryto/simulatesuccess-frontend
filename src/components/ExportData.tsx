@@ -28,7 +28,7 @@ const ExportData = ({ data, displayText, fileName }) => {
 
   return (
     <div className="p-6">
-      <button type='button' className="border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white overflow-hidden" onClick={exportToJson}>
+      <button type='button' className="border border-gray-600 rounded-lg bg-gray-700 placeholder-gray-400 text-white overflow-hidden" onClick={exportToJson}>
         {displayText}
       </button>
     </div>
