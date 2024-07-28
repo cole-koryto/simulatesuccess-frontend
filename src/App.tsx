@@ -2,6 +2,7 @@ import { injectSpeedInsights } from '@vercel/speed-insights';
 import { useState } from 'react'
 import CashFLowsTable from './components/CashFlowsTable'
 import ExportData from './components/ExportData'
+import Header from './components/Header';
 import InputBox from './components/InputBox'
 import PercentileGraph from './components/PercentileGraph'
 import SimulationSummary from './components/SimulationSummary'
@@ -14,11 +15,8 @@ function App() {
 
   return (
     <div>
-      <div className="bg-gray-700 p-4 m-4 rounded">
-          <h1 className="text-3xl font-bold text-white text-center">Simulate Success - Monte Carlo Retirement Calculator</h1>
-      </div>
+      <Header />
       <div className="flex flex-col md:flex-row text-center">
-        
         <div className="w-full md:w-1/2 p-4">
           <InputBox setSimulationInputs={setSimulationInputs} setSimulationData={setSimulationData} />
           {simulationData && <ExportData data={simulationInputs} displayText="Export Simulation Inputs to JSON" fileName="simulation_inputs.json" />}
