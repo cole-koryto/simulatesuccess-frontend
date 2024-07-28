@@ -261,12 +261,12 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
                 </div>
                 <div className="col-start-1 col-span-4 mb-3">
                     <p className="block mb-1 font-normal text-white">Income Sources</p>
-                    <p className="block font-light text-sm text-white">(title, amount, starting age, ending age, growth)</p>
+                    <p className="block mb-1 font-light text-sm text-white">(title, amount, starting age, ending age, growth)</p>
                     <AddableSourceBoxV2 groups={incomeSources} setGroups={setIncomeSources}/>
                 </div>
                 <div className="col-start-1 col-span-4 mb-3">
                     <p className="block mb-1 font-normal text-white">Spending Sources</p>
-                    <p className="block font-light text-sm text-white">(title, amount, starting age, ending age, growth)</p>
+                    <p className="block mb-1 font-light text-sm text-white">(title, amount, starting age, ending age, growth)</p>
                     <AddableSourceBoxV2 groups={spendingSources} setGroups={setSpendingSources}/>
                 </div>
                 <div className="col-start-1 col-span-2 mb-3">
@@ -283,7 +283,7 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
                 <button type="submit" className="col-start-2 col-span-2 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-normal rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">{loading ? <>Loading...</> : <>Submit Form Inputs</>}</button>
             </form>
             <form id="json_form" onSubmit={handleSubmit} className="mt-5">
-                <input type="file" accept=".json,application/json" className="text-white" onChange={handleFileChange}/>
+                <input type="file" accept=".json,application/json" className="text-white p-2" onChange={handleFileChange}/>
                 <button type="submit" className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-normal rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">{loading ? <>Loading...</> : <>Submit Inputs From JSON</>}</button>
             </form>
         </div>
