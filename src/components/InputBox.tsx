@@ -211,9 +211,9 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
 
     return (
         <div className="bg-gray-800 border-gray-700 p-5 rounded">
-            <form id="form" className="grid grid-cols-4 gap-2 " onSubmit={handleSubmit}>
-                <div className="col-start-1 mb-5">
-                    <label htmlFor="current_balance" className="block mb-2 font-medium text-white">Current Balance</label>
+            <form id="form" className="grid grid-cols-4 gap-2 items-end" onSubmit={handleSubmit}>
+                <div className="col-start-1 mb-3">
+                    <label htmlFor="current_balance" className="block mb-3 font-normal text-white">Current Balance</label>
                     <input required 
                         name="current_balance"
                         id="current_balance" 
@@ -222,28 +222,28 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
                         className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400">
                     </input>
                 </div>
-                <div className="mb-5">
-                    <label htmlFor="annual_return" className="block mb-2 font-medium text-white">Annual Return</label>
+                <div className="mb-3">
+                    <label htmlFor="annual_return" className="block mb-3 font-normal text-white">Annual Return</label>
                     <input required name="annual_return" id="annual_return" className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"></input>
                 </div>
-                <div className="mb-5">
-                    <label htmlFor="return_std" className="block mb-2 font-medium text-white">Return Standard Dev.</label>
+                <div className="mb-3">
+                    <label htmlFor="return_std" className="block mb-3 font-normal text-white">Return Standard Dev.</label>
                     <input required name="return_std" id="return_std" className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"></input>
                 </div>
-                <div className="mb-5">
-                    <label htmlFor="current_age" className="block mb-2 font-medium text-white">Current Age</label>
+                <div className="mb-3">
+                    <label htmlFor="current_age" className="block mb-3 font-normal text-white">Current Age</label>
                     <input required name="current_age" id="current_age" className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"></input>
                 </div>
-                <div className="col-start-1 mb-5">
-                    <label htmlFor="life_expectancy" className="block mb-2 font-medium text-white">Life Expectancy</label>
+                <div className="col-start-1 mb-3">
+                    <label htmlFor="life_expectancy" className="block mb-3 font-normal text-white">Life Expectancy</label>
                     <input required defaultValue="92" name="life_expectancy" id="life_expectancy" className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"></input>
                 </div>
-                <div className="mb-5">
-                    <label htmlFor="inflation" className="block mb-2 font-medium text-white">Inflation</label>
+                <div className="mb-3">
+                    <label htmlFor="inflation" className="block mb-3 font-normal text-white">Inflation</label>
                     <input required defaultValue="0.03" name="inflation" id="inflation" className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"></input>
                 </div>
-                <div className="mb-5">
-                    <label htmlFor="num_simulations" className="block mb-2 font-medium text-white">Number of Simulations</label>
+                <div className="mb-3">
+                    <label htmlFor="num_simulations" className="block mb-3 font-normal text-white">Number of Simulations</label>
                     <input required 
                         name="num_simulations"
                         id="num_simulations" 
@@ -252,37 +252,39 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
                         className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400">
                     </input>
                 </div>
-                <div className="mb-5">
-                    <label htmlFor="random_state" className="block mb-2 font-medium text-white">Repeatable Results</label>
+                <div className="mb-3">
+                    <label htmlFor="random_state" className="block mb-3 font-normal text-white">Repeatable Results</label>
                     <select name="random_state" id="random_state" className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400">
                         <option value="">False</option>
                         <option value="1">True</option>
                     </select>
                 </div>
-                <div className="col-start-1 col-span-4 mb-5">
-                    <p className="block mb-2 font-medium text-white">Enter income sources (title, amount, starting age, ending age, growth)</p>
+                <div className="col-start-1 col-span-4 mb-3">
+                    <p className="block mb-1 font-normal text-white">Income Sources</p>
+                    <p className="block font-light text-sm text-white">(title, amount, starting age, ending age, growth)</p>
                     <AddableSourceBoxV2 groups={incomeSources} setGroups={setIncomeSources}/>
                 </div>
-                <div className="col-start-1 col-span-4 mb-5">
-                    <p className="block mb-2 font-medium text-white">Enter spending sources (title, amount, starting age, ending age, growth)</p>
+                <div className="col-start-1 col-span-4 mb-3">
+                    <p className="block mb-1 font-normal text-white">Spending Sources</p>
+                    <p className="block font-light text-sm text-white">(title, amount, starting age, ending age, growth)</p>
                     <AddableSourceBoxV2 groups={spendingSources} setGroups={setSpendingSources}/>
                 </div>
-                <div className="col-start-1 col-span-2">
-                    <p className="block mb-2 font-medium text-white">Enter balance percentiles</p>
+                <div className="col-start-1 col-span-2 mb-3">
+                    <p className="block mb-3 font-normal text-white">Final Balance Percentiles</p>
                     <AddablePercentileBox fields={percentiles} setFields={setPercentiles}/>
                 </div>
-                <div className="col-span-2">
-                    <label htmlFor="distribution_type" className="block mb-2 font-medium text-white">Select Distribution Type</label>
+                <div className="col-span-2 self-start mb-3">
+                    <label htmlFor="distribution_type" className="block mb-3 font-normal text-white">Select Distribution Type</label>
                     <select name="distribution_type" id="distribution_type" className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400">
                         <option value="normal">Normal</option>
                         <option value="laplace">Laplace</option>
                     </select>
                 </div>
-                <button type="submit" className="col-start-2 col-span-2 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">{loading ? <>Loading...</> : <>Submit Form Inputs</>}</button>
+                <button type="submit" className="col-start-2 col-span-2 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-normal rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">{loading ? <>Loading...</> : <>Submit Form Inputs</>}</button>
             </form>
             <form id="json_form" onSubmit={handleSubmit} className="mt-5">
                 <input type="file" accept=".json,application/json" className="text-white" onChange={handleFileChange}/>
-                <button type="submit" className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">{loading ? <>Loading...</> : <>Submit Inputs From JSON</>}</button>
+                <button type="submit" className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-normal rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">{loading ? <>Loading...</> : <>Submit Inputs From JSON</>}</button>
             </form>
         </div>
     )

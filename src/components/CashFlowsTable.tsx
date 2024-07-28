@@ -14,7 +14,7 @@ const CashFLowsTable = ({ TotalIncomeData, TotalSpendingData, NetIncomeData }) =
         <tbody>
           {Object.keys(NetIncomeData).map((key: any) => (
             <tr key={key} className="bg-gray-800 border-b border-gray-700">
-              <th scope="row" className="px-6 py-2 font-medium text-white whitespace-nowrap">{key}</th>
+              <th scope="row" className="px-6 py-2 font-normal text-white whitespace-nowrap">{key}</th>
               <td className="px-6 py-2">{Number(TotalIncomeData[key].toFixed(2)).toLocaleString()}</td>
               <td className="px-6 py-2">{Number(TotalSpendingData[key].toFixed(2)).toLocaleString()}</td>
               <td className="px-6 py-2">{Number(NetIncomeData[key].toFixed(2)).toLocaleString()}</td>
