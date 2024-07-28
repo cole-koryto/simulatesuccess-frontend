@@ -8,7 +8,7 @@ const Header = () => {
         <p className="text-white text-sm">
           View the user guide and code on 
           <a 
-            href="https://github.com/your-username/your-repo" 
+            href="https://github.com/cole-koryto/simulatesuccess-frontend" 
             target="_blank" 
             rel="noopener noreferrer" 
             className="text-blue-500 hover:text-blue-700 ml-1"
