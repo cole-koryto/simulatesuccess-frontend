@@ -28,6 +28,7 @@ const AddablePercentileBox = ({ fields, setFields }) => {
             type="text" 
             name="percentile" 
             inputMode="decimal"
+            maxLength={16}
             className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"
             value={element} 
             placeholder="Enter percentile"

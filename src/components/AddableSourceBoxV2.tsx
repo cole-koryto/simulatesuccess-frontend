@@ -39,6 +39,7 @@ const AddableInputBoxV2 = ({ groups, setGroups }) => {
             type="text"
             name="amount"
             inputMode="decimal"
+            maxLength={21}
             className="bg-gray-700 border border-gray-600 text-white text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"
             value={element.amount ? Number(element.amount).toLocaleString() : ""}
             placeholder="Amount"
@@ -48,6 +49,7 @@ const AddableInputBoxV2 = ({ groups, setGroups }) => {
             type="text"
             name="starting_age"
             inputMode="decimal"
+            maxLength={16}
             className="bg-gray-700 border border-gray-600 text-white text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"
             value={element.starting_age || ""}
             placeholder="Starting age"
@@ -57,6 +59,7 @@ const AddableInputBoxV2 = ({ groups, setGroups }) => {
             type="text"
             name="ending_age"
             inputMode="decimal"
+            maxLength={16}
             className="bg-gray-700 border border-gray-600 text-white text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"
             value={element.ending_age || ""}
             placeholder="Ending age"
@@ -66,6 +69,7 @@ const AddableInputBoxV2 = ({ groups, setGroups }) => {
             type="text"
             name="growth"
             inputMode="decimal"
+            maxLength={16}
             className="bg-gray-700 border border-gray-600 text-white text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"
             value={element.growth}
             placeholder="Growth"
