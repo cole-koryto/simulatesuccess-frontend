@@ -17,7 +17,7 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
     const [currentBalance, setCurrentBalance] = useState("");
     const [numSimulations, setNumSimulations] = useState("1000");
 
-
+    // Checks if the response from the api is in the expected format
     const isResponseValid = (responseData: any) => {
         if(!(JSON.stringify(expectedResponseKeys) == JSON.stringify(Object.keys(responseData))))
         {
@@ -29,7 +29,7 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
         return true
     }
 
-
+    // Updates selected file based on user selection
     const handleFileChange = (event: any) => {
         try{
             if (!event.target.files)
@@ -139,6 +139,7 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
         }
     }
 
+    // Takes data from form submission event and moves it into a structure
     const getDataFromForm = (event: any) => {
         let data = {
             annual_return: event.target.annual_return.value,
@@ -157,6 +158,7 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
         return data;
     }
 
+    // Takes event from user form submission and tries to send api request 
     const handleSubmit = (event: any) => {
         event.preventDefault()
         if(loading)
@@ -219,28 +221,29 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
                         id="current_balance" 
                         value={currentBalance ? Number(currentBalance).toLocaleString() : ""}
                         onChange={(e) => setCurrentBalance(e.target.value.replace(/[,\D]/g, ""))}
+                        inputMode="decimal"
                         className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400">
                     </input>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="annual_return" className="block mb-3 font-normal text-white">Annual Return</label>
-                    <input required name="annual_return" id="annual_return" className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"></input>
+                    <input required name="annual_return" id="annual_return" inputMode="decimal" className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"></input>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="return_std" className="block mb-3 font-normal text-white">Return Standard Dev.</label>
-                    <input required name="return_std" id="return_std" className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"></input>
+                    <input required name="return_std" id="return_std" inputMode="decimal" className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"></input>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="current_age" className="block mb-3 font-normal text-white">Current Age</label>
-                    <input required name="current_age" id="current_age" className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"></input>
+                    <input required name="current_age" id="current_age" inputMode="decimal" className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"></input>
                 </div>
                 <div className="col-start-1 mb-3">
                     <label htmlFor="life_expectancy" className="block mb-3 font-normal text-white">Life Expectancy</label>
-                    <input required defaultValue="92" name="life_expectancy" id="life_expectancy" className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"></input>
+                    <input required defaultValue="92" name="life_expectancy" id="life_expectancy" inputMode="decimal" className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"></input>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="inflation" className="block mb-3 font-normal text-white">Inflation</label>
-                    <input required defaultValue="0.03" name="inflation" id="inflation" className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"></input>
+                    <input required defaultValue="0.03" name="inflation" id="inflation" inputMode="decimal" className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"></input>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="num_simulations" className="block mb-3 font-normal text-white">Number of Simulations</label>
@@ -249,6 +252,7 @@ const InputBox = ({ setSimulationInputs, setSimulationData }) => {
                         id="num_simulations" 
                         value={numSimulations ? Number(numSimulations).toLocaleString() : ""}
                         onChange={(e) => setNumSimulations(e.target.value.replace(/[,\D]/g, ""))}
+                        inputMode="decimal"
                         className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400">
                     </input>
                 </div>
