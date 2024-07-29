@@ -9,6 +9,7 @@ If they want users can also export their simulation results to a json file.
 
 ## Inputs
 Here is an explanation of all of the inputs that are directly available on the site:
+
 **Current Balance**: Current net balance of user's total portfolio in today's dollars. 
 
 **Annual Return**: The annual return of user's total portfolio represented as a decimal number (e.g. 0.06 = 6%).
