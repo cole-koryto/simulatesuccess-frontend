@@ -22,9 +22,9 @@ Here is an explanation of all of the inputs that are directly available on the s
 
 **Inflation**: Assumed annual inflation rate over entire simulation. Inflates all spending sources and none of the income sources. Applies to every year from current age to end of simulation even if spending source starts later.
 
-**Number of Simulations**: The total number of simulations the program will run to explore the possible outcomes given the inputs.
+**Number of Simulations**: The total number of simulations the program will run to explore the possible outcomes given the inputs. Capped at 10,000.
 
-**Repeatable Results**: Whether the results of the simulations should be deterministic (i.e. if True, the same inputs will always result in the same outputs, otherwise results can vary each run due to random chance). This is implemented with a random state value that is set to 1 when Repeatable Results is true and none otherwise.
+**Repeatable Results**: Whether the results of the simulations should be deterministic (i.e. if True, the same inputs will always result in the same outputs, otherwise results can vary each run due to random chance). This is implemented with random_state varaible that is set to 1 when Repeatable Results is true and none otherwise.
 
 **Income Sources**: All sources of income during the simulation. Title is not necessary and is only used to increase user understanding. Amount is the annual amount of income from this source in today's dollars. Starting age is the age at which the income will start to be applied. Ending age is the year the income will no only apply and this age is not inclusive (i.e. last income will be applied at ending age - 1). Growth is the annual amount the income source will growth per year. Income sources are not affected by inflation. Income sources are not required.
 
